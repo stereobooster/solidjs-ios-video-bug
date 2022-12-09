@@ -1,0 +1,34 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video bug</title>
+  </head>
+  <body>
+    <a link="" href="/" class="active" aria-current="page">Index</a
+    ><a link="" href="/about" class="inactive">About</a>
+    <main>
+      <video
+        id="video"
+        autoplay=""
+        muted=""
+        playsinline=""
+        style="border: 1px solid red"
+      ></video>
+      <script>
+        const video = document.getElementById("video");
+        video.addEventListener("click", () => {
+          navigator.mediaDevices
+            .getUserMedia({
+              audio: false,
+              video: { facingMode: "environment" },
+            })
+            .then((stream) => {
+              video.srcObject = stream;
+            })
+            .catch((error) => alert(error));
+        });
+      </script>
+    </main>
+  </body>
+</html>
