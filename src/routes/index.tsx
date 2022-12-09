@@ -1,30 +1,28 @@
 import { Title } from "solid-start";
+import { createSignal } from "solid-js";
 
 export default function Home() {
+  const [source, setSource] = createSignal();
+  const getStream = () =>
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: { facingMode: "environment" },
+      })
+      .then(setSource)
+      .catch(alert);
+
   return (
     <main>
       <Title>Video bug</Title>
       <video
-        id="video"
-        style={{border: "1px solid red"}}
+        style={{ border: "1px solid red" }}
+        prop:srcObject={source()}
         autoplay
         muted
         playsinline
-        onclick={() => {
-          navigator.mediaDevices
-            .getUserMedia({
-              audio: false,
-              video: { facingMode: "environment" },
-            })
-            .then((stream) => {
-              const video = document.getElementById(
-                "video"
-              ) as HTMLVideoElement;
-              video.srcObject = stream;
-            })
-            .catch((error) => alert(error));
-        }}
-      ></video>
+        onClick={getStream}
+      />
     </main>
   );
 }
